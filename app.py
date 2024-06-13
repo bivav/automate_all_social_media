@@ -2,7 +2,6 @@ import os
 from telethon import TelegramClient, events
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
 # Get the API credentials from environment variables
