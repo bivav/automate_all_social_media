@@ -6,6 +6,7 @@ __pycache__/
 # Virtual environment
 venv/
 env/
+.venv/
 
 # IDE specific
 .idea/
@@ -34,3 +35,5 @@ bin/
 # Miscellaneous
 .DS_Store
 Thumbs.db
+
+.env
