@@ -1,0 +1,36 @@
+# Python specific
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+
+# IDE specific
+.idea/
+.vscode/
+
+# Compiled files
+*.pyd
+*.pyw
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Dependency directories
+dist/
+build/
+lib/
+bin/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
