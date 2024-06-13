@@ -1,33 +1,36 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext
-import telegram.ext.filters as filters
-import logging
 import os
+from telethon import TelegramClient, events
+from dotenv import load_dotenv
 
-API_TOKEN = os.getenv('TELEGRAM_API_KEY')
+# Load environment variables from .env file
+load_dotenv()
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+# Get the API credentials from environment variables
+api_id = int(os.getenv('TELEGRAM_API_ID'))
+api_hash = os.getenv('TELEGRAM_API_HASH')
+phone_number = os.getenv('TELEGRAM_PHONE_NUMBER')
 
-logger = logging.getLogger(__name__)
+# Create the client and connect
+client = TelegramClient('session_name', api_id, api_hash)
 
-async def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    await update.message.reply_text('Hi! Use /set <seconds> to set a timer')
+# Store messages in a list
+messages = []
 
-async def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
-    await update.message.reply_text(update.message.text)
+@client.on(events.NewMessage)
+async def my_event_handler(event):
+    sender = await event.get_sender()
+    sender_name = sender.username or sender.first_name
+    message_info = f"Sender: {sender_name}\nMessage: {event.message.message}\n"
+    messages.append(message_info)
+    print(f"Captured message: {message_info}")
 
-def main():
-    """Start the bot."""
-    application = Application.builder().token(API_TOKEN).build()
+async def main():
+    # Connect to the client
+    await client.start(phone_number)
 
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-
-    # Start the Bot
-    application.run_polling()
+    # Keep the client running to listen for new messages
+    print("Client is running. Listening for new messages...")
+    await client.run_until_disconnected()
 
 if __name__ == '__main__':
-    main()
+    client.loop.run_until_complete(main())
