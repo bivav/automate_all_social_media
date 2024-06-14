@@ -37,3 +37,4 @@ bin/
 Thumbs.db
 
 .env
+session_name.session
